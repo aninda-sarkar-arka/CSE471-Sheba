@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: appdb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=postgresql://app:secret@db:5432/appdb
+      - FLASK_ENV=development
+      - JWT_SECRET_KEY=replace-me
+    ports:
+      - '5000:5000'
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:80'
+volumes:
+  db_data:
