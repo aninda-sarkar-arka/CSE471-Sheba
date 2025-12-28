@@ -4,7 +4,7 @@ Sheba is a comprehensive full-stack web application designed to bridge the gap b
 
 The platform empowers users with real-time communication, location-based service matching, and intuitive dashboards for both customers and providers.
 
-## \u2728 Key Features
+## Key Features
 
 - **Smart Matching**: Automatically finds providers based on category and proximity.
 - **Real-Time Chat**: Integrated Socket.IO messaging for seamless communication between users and providers.
@@ -12,7 +12,7 @@ The platform empowers users with real-time communication, location-based service
 - **Dynamic Pricing**: Providers can set their own service fee ranges.
 - **Interactive Map**: Location-based services using flexible radius matching.
 
-## \uD83D\uDEE0\uFE0F Tech Stack
+## Tech Stack
 
 ### Backend
 - **Framework**: Flask (Python)
@@ -25,7 +25,7 @@ The platform empowers users with real-time communication, location-based service
 - **Styling**: Styled Components & CSS Modules
 - **HTTP Client**: Axios
 
-## \uD83D\uDE80 Getting Started
+## Getting Started
 
 Follow these steps to set up the project locally.
 
@@ -73,7 +73,7 @@ npm run dev
 ```
 *Frontend URL: `http://localhost:3000`*
 
-## \uD83D\uDCC2 Project Structure
+## Project Structure
 
 ```
 sheba/
@@ -87,13 +87,10 @@ sheba/
 └── README.md          # Project documentation
 ```
 
-## \uD83E\uDD1D Contributing
+## Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
----
-*Built with \u2764\uFE0F for CSE471*
