@@ -8,14 +8,29 @@ export default function ComplaintPage() {
   const [complaints, setComplaints] = useState([])
   const [message, setMessage] = useState('')
   const [user, setUser] = useState(null)
+  const [pastProviders, setPastProviders] = useState([])
 
   useEffect(() => {
     api.get('/auth/me').then(res => setUser(res.data.user)).catch(e => { })
     loadComplaints()
+    loadPastProviders()
     const socket = getSocket()
     socket.on('complaint_update', () => loadComplaints())
     return () => socket.off('complaint_update')
   }, [])
+
+
+
+
+
+  async function loadPastProviders() {
+    try {
+      const res = await api.get('/user/past-providers')
+      setPastProviders(res.data || [])
+    } catch (e) { }
+  }
+
+
 
   async function loadComplaints() {
     try {
@@ -68,8 +83,29 @@ export default function ComplaintPage() {
             <div className="form-row">
               <div style={{ display: 'flex', gap: 10 }}>
                 <div style={{ flex: 1 }}>
-                  <label>Provider ID (Optional)</label>
-                  <input placeholder="PROV-001" value={form.provider_unique_id} onChange={e => setForm({ ...form, provider_unique_id: e.target.value })} />
+
+
+
+
+                  <label>Select Provider (Optional)</label>
+                  <select
+                    value={form.provider_unique_id}
+                    onChange={e => setForm({ ...form, provider_unique_id: e.target.value })}
+                  >
+                    <option value="">-- Select a Provider --</option>
+                    {pastProviders.map(p => (
+                      <option key={p.id} value={p.provider_unique_id}>
+                        {p.name} ({p.provider_unique_id})
+                      </option>
+                    ))}
+
+
+
+
+
+
+                  </select>
+                  {pastProviders.length === 0 && <small className="muted">You haven't hired any providers yet.</small>}
                 </div>
                 <div style={{ flex: 1 }}>
                   <label>Request ID (Optional)</label>

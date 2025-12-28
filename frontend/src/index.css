@@ -488,3 +488,39 @@ textarea {
 .small {
   font-size: 13px
 }
+
+
+/* FORCE GLOBAL SOLID BUTTONS */
+button,
+.btn,
+input[type='submit'],
+input[type='button'] {
+  background-color: #2563EB !important;
+  /* Solid Blue */
+  color: white !important;
+  border: 2px solid #2563EB !important;
+  border-radius: 8px !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+
+
+/* Global Hover Override */
+button:hover,
+.btn:hover,
+input[type='submit']:hover,
+input[type='button']:hover {
+  background-color: #1D4ED8 !important;
+  /* Darker Blue */
+  border-color: #1D4ED8 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Exception for Outline/Secondary IF specifically needed, but user said 'every button' so keeping it simple first. */
+/* We can relax this if it breaks the layout, but this ensures the user's request is met. */

@@ -58,29 +58,62 @@ def ping():
 @api_bp.route('/auth/register', methods=['POST'])
 def register():
     data = request.get_json() or {}
-    username = data.get('username')
-    password = data.get('password')
     name = data.get('name')
     email = data.get('email')
-    role = data.get('role', 'user') # default to user if not provided
-    
-    if not username or not password or not name:
-        return jsonify({'msg': 'username, password and name are required'}), 400
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role', 'user')  # Default to user if not specified
+
+    if not username or not password:
+        return jsonify({'msg': 'username and password are required'}), 400
+
     if User.query.filter_by(username=username).first():
         return jsonify({'msg': 'username taken'}), 400
-        
-    user = User(
-        username=username,
-        name=name,
-        email=email,
-        role=role,
-        rating_average=0.0,
-        rating_count=0
-    )
-    user.set_password(password)
-    db.session.add(user)
+
+    new_user = User(username=username, role=role, name=name, email=email)
+    new_user.set_password(password)
+    
+    db.session.add(new_user)
+    # Auto-assign Provider ID if role is provider
+    if role == 'provider':
+        db.session.flush() # flush to get an ID
+        new_user.provider_unique_id = f"PV-{new_user.id:03d}"
+
     db.session.commit()
-    return jsonify({'msg': 'user created', 'user': user.to_dict()}), 201
+
+    return jsonify({'msg': 'registered successfully', 'role': role}), 201
+
+
+
+
+@api_bp.route('/user/past-providers', methods=['GET'])
+@login_required
+def get_past_providers():
+    user = get_current_user()
+    if user.role != 'user':
+        return jsonify([])
+
+    # Find requests made by this user that have a provider assigned
+    requests = ServiceRequest.query.filter_by(user_id=user.id).filter(ServiceRequest.provider_id.isnot(None)).all()
+    
+    # Extract unique providers
+    seen = set()
+    providers = []
+    for req in requests:
+        if req.provider_id not in seen:
+            p = User.query.get(req.provider_id)
+            if p:
+                providers.append({
+                    'id': p.id,
+                    'name': p.name or p.username,
+                    'provider_unique_id': p.provider_unique_id
+                })
+                seen.add(req.provider_id)
+    
+    return jsonify(providers)
+
+
+
 
 
 @api_bp.route('/auth/login', methods=['POST'])

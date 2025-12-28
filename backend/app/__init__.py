@@ -40,26 +40,7 @@ def create_app(config_object='config.Config'):
 
     # create demo users and providers
     with app.app_context():
-        # #region agent log
-        import json
-        import os
-        from flask_migrate import current as get_current_revision
-        log_path = r'c:\Users\HAVOC\OneDrive\Desktop\cse471\.cursor\debug.log'
-        try:
-            current_rev = get_current_revision()
-            import sqlite3
-            conn = sqlite3.connect(os.path.join(app.instance_path, 'app.db'))
-            cursor = conn.cursor()
-            cursor.execute("PRAGMA table_info(user)")
-            columns = [row[1] for row in cursor.fetchall()]
-            has_email = 'email' in columns
-            conn.close()
-            with open(log_path, 'a', encoding='utf-8') as f:
-                f.write(json.dumps({"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"A","location":"app/__init__.py:38","message":"Migration status check","data":{"current_revision":current_rev,"has_email_column":has_email,"user_columns":columns},"timestamp":int(__import__('time').time()*1000)})+'\n')
-        except Exception as e:
-            with open(log_path, 'a', encoding='utf-8') as f:
-                f.write(json.dumps({"sessionId":"debug-session","runId":"pre-fix","hypothesisId":"A","location":"app/__init__.py:38","message":"Migration check error","data":{"error":str(e)},"timestamp":int(__import__('time').time()*1000)})+'\n')
-        # #endregion
+
         
         # Check if schema is ready (email column exists) before creating demo users
         try:

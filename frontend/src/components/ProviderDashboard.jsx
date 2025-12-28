@@ -75,8 +75,26 @@ export default function ProviderDashboard() {
     <div className="grid">
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ marginTop: 0 }}>Provider Dashboard</h2>
-          <Link to="/profile" className="btn secondary outline" style={{ textDecoration: 'none' }}>Edit Profile</Link>
+          <div>
+            <h2 style={{ marginTop: 0, marginBottom: 4 }}>Provider Dashboard</h2>
+            {currentUser && currentUser.provider_unique_id && (
+              <div style={{
+                display: 'inline-block',
+                background: '#EFF6FF',
+                color: '#1D4ED8',
+                padding: '4px 8px',
+                borderRadius: 4,
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                border: '1px solid #DBEAFE'
+              }}>
+                ID: {currentUser.provider_unique_id}
+              </div>
+            )}
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <Link to="/profile" className="btn outline" style={{ textDecoration: 'none' }}>Edit Profile</Link>
+          </div>
         </div>
 
         {/* Tabs */}
